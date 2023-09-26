@@ -1,3 +1,4 @@
+import { ForwardedRef, forwardRef } from "react";
 import styled, { css } from "styled-components";
 
 type Props = JSX.IntrinsicElements["input"] & {
@@ -8,21 +9,21 @@ type Props = JSX.IntrinsicElements["input"] & {
   textAlign: "start" | "center" | "end";
 };
 
-export const TextField = ({
-  disabled = false,
-  readOnly = false,
-  label,
-  error,
-  h,
-  w,
-  textAlign,
-  ...props
-}: Props) => {
+const _TextField = (
+  { disabled = false, readOnly = false, label, error, h, w, textAlign, ...props }: Props,
+  ref: ForwardedRef<HTMLInputElement>,
+) => {
   return (
     <Div>
       <Label>{label}</Label>
-      <InputWrapper h={h} w={w}>
-        <StyledInput readOnly={readOnly} disabled={disabled} $textAlign={textAlign} {...props} />
+      <InputWrapper $h={h} $w={w}>
+        <StyledInput
+          ref={ref}
+          readOnly={readOnly}
+          disabled={disabled}
+          $textAlign={textAlign}
+          {...props}
+        />
       </InputWrapper>
       {error && <Error>{error}</Error>}
     </Div>
@@ -48,11 +49,11 @@ const StyledInput = styled.input<{ $textAlign?: TextAlign }>`
 `;
 
 const InputWrapper = styled.div<{
-  h?: number;
-  w?: number;
+  $h?: number;
+  $w?: number;
 }>`
-  height: ${({ h }) => (h ? `${h}rem` : "100%")};
-  width: ${({ w }) => (w ? `${w}rem` : "100%")};
+  height: ${({ $h }) => ($h ? `${$h}rem` : "100%")};
+  width: ${({ $w }) => ($w ? `${$w}rem` : "100%")};
   padding: 2;
   border: 1.5px solid;
   border-color: #a5a5a5;
@@ -69,3 +70,6 @@ const Label = styled.label`
 const Error = styled.p`
   color: #d01e1e;
 `;
+
+const TextField = forwardRef(_TextField);
+export default TextField;
