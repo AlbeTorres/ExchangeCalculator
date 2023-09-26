@@ -70,7 +70,7 @@ export default function Home({ currencies }: { currencies: string[] }) {
                 <Select register={register} items={currencies} name="to" h={2} label="to" />
               </Div>
               {value && (
-                <p>
+                <p data-testid={`p`}>
                   {value.converted} <span>{value.code}</span>
                 </p>
               )}

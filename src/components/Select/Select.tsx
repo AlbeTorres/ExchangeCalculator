@@ -16,9 +16,9 @@ export const Select = ({ name, label, error, h, w, items, register, ...props }: 
     <Div>
       <Label>{label}</Label>
       <SelectWrapper $h={h} $w={w}>
-        <StyledSelect {...register(name)} {...props}>
+        <StyledSelect data-testid={label} {...register(name)} {...props}>
           {items.map((i, index) => (
-            <option value={i} key={index}>
+            <option data-testid={`${label}-${i}`} value={i} key={index}>
               {i}
             </option>
           ))}
